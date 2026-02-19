@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Adhelia · di antara gunung & ombak</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', 'Poppins', 'Segoe UI', system-ui, sans-serif;
+            background: #1a0e2b; /* dasar ungu gelap */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            color: #f3e6ff;
+        }
+
+        /* latar ungu bervariasi dengan gradien besar */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, #5d3b8a 0%, transparent 35%),
+                radial-gradient(circle at 90% 70%, #8a62b9 0%, transparent 40%),
+                linear-gradient(145deg, #2c1848 0%, #201035 100%);
+            z-index: -2;
+        }
+
+        /* tekstur halus seperti kabut */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" opacity="0.1"><path d="M70 90 Q90 70 120 80 Q150 95 170 80 Q180 70 170 50 Q160 30 130 40 Q100 50 70 40 Q50 30 40 50 Q30 70 50 90 Q60 100 70 90" fill="%23b594ff" stroke="none"/><path d="M30 150 Q60 140 90 155 Q120 170 150 145 Q170 130 160 100 Q150 75 120 90 Q100 105 70 95 Q45 85 35 115 Q25 140 30 150" fill="%239f7cdf" stroke="none"/></svg>') repeat;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .kartu-utama {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(40, 22, 58, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 60px 60px 40px 40px;
+            padding: 40px 35px;
+            border: 2px solid rgba(200, 160, 255, 0.25);
+            box-shadow: 0 35px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px #b27bf5 inset;
+            transition: all 0.3s;
+        }
+
+        /* nama adhelia dengan aksen ungu terang */
+        .nama-banner {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .nama-banner h1 {
+            font-size: 5rem;
+            font-weight: 500;
+            background: linear-gradient(145deg, #f0d6ff, #e2baff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px #b27bf5, 0 0 15px #9147ff;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            border-bottom: 3px dotted #a16ed4;
+            display: inline-block;
+            padding: 0 20px 10px;
+        }
+
+        .nama-banner p {
+            font-size: 1.5rem;
+            color: #c9abf0;
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        /* GALLERY FOTO - AREA KHUSUS UNTUK FOTO MUKA ADHELIA */
+        .gallery-section {
+            margin: 30px 0 40px;
+        }
+
+        .gallery-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #ebcfff;
+            margin-bottom: 25px;
+            font-weight: 350;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #b48aec;
+            padding-bottom: 15px;
+        }
+
+        .foto-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .foto-card {
+            flex: 1 1 200px;
+            max-width: 250px;
+            min-width: 180px;
+            background: rgba(57, 34, 76, 0.8);
+            border-radius: 35px 35px 25px 25px;
+            padding: 20px 15px 20px;
+            border: 2px solid #b27af0;
+            box-shadow: 0 20px 30px -10px #040004;
+            backdrop-filter: blur(4px);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .foto-card:hover {
+            transform: scale(1.03);
+            border-color: #e9c4ff;
+            background: rgba(75, 45, 100, 0.9);
+        }
+
+        .foto-placeholder {
+            width: 160px;
+            height: 160px;
+            border-radius: 50% 30% 50% 30% / 40% 50% 40% 50%;
+            background: linear-gradient(145deg, #8f6bc6, #5b3c86);
+            border: 4px solid #dbb5ff;
+            box-shadow: 0 0 30px #cb9eff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            overflow: hidden; /* untuk nanti jika diisi foto beneran */
+            color: #f2dcff;
+            font-size: 3rem;
+            transition: all 0.2s;
+        }
+
+        /* CATATAN: ini adalah area yang bisa diisi dengan foto asli Adhelia */
+        .foto-placeholder span {
+            text-shadow: 0 0 10px white;
+        }
+
+        .foto-caption {
+            font-size: 1.3rem;
+            color: #eed9ff;
+            font-weight: 400;
+            background: #311f4a;
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid #cbadff;
+            width: 100%;
+            text-align: center;
+        }
+
+        .foto-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #caaef0;
+            font-style: italic;
+            background: rgba(43, 23, 63, 0.8);
+            padding: 10px 20px;
+            border-radius: 100px;
+            border: 1px dashed #b384ff;
+        }
+
+        /* dua kolom pemandangan: gunung dan pantai */
+        .pemandangan-duo {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 35px 0 40px;
+        }
+
+        .kartu-alam {
+            flex: 1 1 280px;
+            background: rgba(26, 12, 40, 0.7);
+            border-radius: 50px 50px 30px 30px;
+            padding: 25px 20px 30px;
+            border: 1px solid #ab84d6;
+            box-shadow: 0 25px 30px -15px black;
+            transition: transform 0.25s ease;
+        }
+
+        .kartu-alam:hover {
+            transform: scale(1.02) translateY(-6px);
+            border-color: #d2aaff;
+            background: rgba(46, 24, 68, 0.8);
+        }
+
+        .ikon-alam {
+            font-size: 4rem;
+            line-height: 1;
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 8px #b77ef0);
+        }
+
+        .kartu-alam h2 {
+            font-size: 2.2rem;
+            font-weight: 350;
+            color: #ebd5ff;
+            border-left: 8px solid #b27af0;
+            padding-left: 15px;
+            margin: 5px 0 20px;
+        }
+
+        .visual-gunung {
+            background: linear-gradient(transparent 20%, #2b1542 90%), 
+            url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 130"><path d="M0,80 L40,35 L70,65 L100,20 L135,50 L165,20 L195,50 L220,30 L220,130 L0,130 Z" fill="%234e2e79" opacity="0.9"/><path d="M0,110 L30,70 L65,95 L95,60 L125,85 L155,55 L185,85 L210,70 L220,90 L220,130 L0,130 Z" fill="%236b44a3" opacity="0.8"/><circle cx="45" cy="30" r="6" fill="%23f9ecff" opacity="0.5"/><circle cx="170" cy="25" r="8" fill="%23f9ecff" opacity="0.4"/></svg>') no-repeat bottom/cover;
+            background-blend-mode: overlay;
+            min-height: 210px;
+            border-radius: 30px 30px 20px 20px;
+            border: 3px solid #8a64b5;
+            box-shadow: inset 0 -20px 30px #1d0b2b;
+        }
+
+        .visual-pantai {
+            background: linear-gradient(125deg, #351f4e, #4b2e70), 
+            url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 130"><path d="M0,95 Q35,60 70,85 Q110,115 145,80 Q180,50 210,75 L220,85 L220,130 L0,130 Z" fill="%237a59a3" opacity="0.8"/><path d="M0,115 Q45,90 85,110 Q120,125 155,100 Q190,75 215,95 L220,105 L220,130 L0,130 Z" fill="%239577c6" opacity="0.7"/><circle cx="55" cy="75" r="5" fill="%23fcebb7" opacity="0.9"/><circle cx="175" cy="70" r="7" fill="%23fff1c7" opacity="0.7"/></svg>') no-repeat bottom/cover;
+            background-blend-mode: lighten;
+            min-height: 210px;
+            border-radius: 30px 30px 20px 20px;
+            border: 3px solid #a27bcb;
+            box-shadow: inset 0 -15px 30px #1e0b30;
+        }
+
+        .caption-alam {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 1.3rem;
+            color: #dbbfff;
+            font-weight: 300;
+        }
+
+        /* ruang quotes untuk adhelia */
+        .kumpulan-quote {
+            background: rgba(60, 33, 82, 0.6);
+            backdrop-filter: blur(6px);
+            border-radius: 50px 50px 30px 30px;
+            padding: 35px 25px;
+            margin: 30px 0 20px;
+            border: 1px solid #b48aec;
+            box-shadow: 0 15px 25px -10px #0f0420;
+        }
+
+        .kumpulan-quote h3 {
+            font-size: 2.2rem;
+            text-align: center;
+            font-weight: 350;
+            color: #ebcfff;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            word-spacing: 8px;
+            letter-spacing: 5px;
+        }
+
+        .quote-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .quote-item {
+            flex: 1 1 220px;
+            max-width: 280px;
+            background: #281b3b;
+            border-radius: 35px 35px 25px 25px;
+            padding: 22px 20px;
+            border-left: 10px solid #c99eff;
+            box-shadow: 0 15px 20px #090011;
+            transition: all 0.2s;
+        }
+
+        .quote-item:hover {
+            border-left-color: #fbd6ff;
+            background: #35254d;
+        }
+
+        .quote-teks {
+            font-size: 1.3rem;
+            font-style: italic;
+            line-height: 1.5;
+            color: #f3dcff;
+            margin-bottom: 15px;
+        }
+
+        .quote-teks::before {
+            content: "“";
+            font-size: 2.5rem;
+            color: #d9b0ff;
+            line-height: 0.7;
+            margin-right: 3px;
+            vertical-align: middle;
+        }
+
+        .quote-teks::after {
+            content: "”";
+            font-size: 2.5rem;
+            color: #d9b0ff;
+            line-height: 0.7;
+            margin-left: 3px;
+            vertical-align: bottom;
+        }
+
+        .quote-penanda {
+            text-align: right;
+            font-size: 1.2rem;
+            color: #c7a2f0;
+            border-top: 1px dashed #aa7cdb;
+            padding-top: 8px;
+        }
+
+        .quote-penanda::before {
+            content: "— ";
+            color: #caa8ff;
+        }
+
+        /* aksen hati & nama */
+        .footer-personal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin: 40px 0 10px;
+        }
+
+        .footer-personal span {
+            background: #3a2357;
+            padding: 12px 35px;
+            border-radius: 50px;
+            border: 1px solid #bb92f0;
+            font-size: 1.5rem;
+            box-shadow: 0 0 25px #b789ff;
+            font-weight: 400;
+            color: #fbeeff;
+        }
+
+        .aksen-bergoyang {
+            display: inline-block;
+            animation: goyang 3s infinite ease-in-out;
+        }
+
+        @keyframes goyang {
+            0% { transform: rotate(0deg); }
+            20% { transform: rotate(6deg); }
+            40% { transform: rotate(-6deg); }
+            60% { transform: rotate(4deg); }
+            80% { transform: rotate(-2deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .teks-kecil {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #bba5e0;
+            letter-spacing: 2px;
+            margin-top: 15px;
+        }
+
+        /* petunjuk cara mengganti dengan foto asli */
+        .tips-foto {
+            font-size: 0.9rem;
+            background: #2e1b47;
+            padding: 5px 15px;
+            border-radius: 30px;
+            color: #d1b3ff;
+            margin-top: 5px;
+            border: 1px dotted #ac85e6;
+        }
+
+        /* responsif */
+        @media (max-width: 650px) {
+            .kartu-utama { padding: 25px 15px; }
+            .nama-banner h1 { font-size: 3.5rem; }
+            .kartu-alam h2 { font-size: 1.9rem; }
+            .foto-placeholder { width: 130px; height: 130px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="kartu-utama">
+
+        <!-- Nama Adhelia dengan aksen alam -->
+        <div class="nama-banner">
+            <h1>adhelia</h1>
+            <p>
+                <span class="aksen-bergoyang">🌄</span> 
+                pesona di puncak dan di tepi laut 
+                <span class="aksen-bergoyang">🏝️</span>
+            </p>
+        </div>
+
+        <!-- ===== GALLERY FOTO Wajah Adhelia ===== -->
+        <div class="gallery-section">
+            <div class="gallery-title">✦ senyum adhelia ✦</div>
+            
+            <div class="foto-grid">
+                <!-- FOTO 1 -->
+                <div class="foto-card">
+                    <div class="foto-placeholder">
+                        <!-- GANTI: tempat foto 1 - hapus span dan isi dengan tag img -->
+                        <img src= "muka1.jpeg" alt="Adhelia 1" style="width: 100%; height:100%; object-fit:cover;">
+                        <!-- Contoh jika pakai foto asli (hapus span di atas dan komentar di bawah):
+                            <img src="path/foto1.jpg" alt="Adhelia 1" style="width:100%; height:100%; object-fit:cover;"> 
+                        -->
+                    </div>
+                    <div class="foto-caption">senja di matamu</div>
+                </div>
+                
+                <!-- FOTO 2 -->
+                <div class="foto-card">
+                    <div class="foto-placeholder">
+                         <img src= "muka2.jpeg" alt="Adhelia 2" style="width: 100%; height:100%; object-fit:cover;">
+                        <!-- GANTI: tempat foto 2 - hapus span dan isi dengan tag img -->
+                    </div>
+                    <div class="foto-caption">tersenyum di pantai</div>
+                </div>
+                
+                <!-- FOTO 3 -->
+                <div class="foto-card">
+                    <div class="foto-placeholder">
+                        <img src= "muka3.jpeg" alt="Adhelia 3" style="width: 100%; height:100%; object-fit:cover;">
+                        <!-- GANTI: tempat foto 3 -->
+                    </div>
+                    <div class="foto-caption">cahaya pegunungan</div>
+                </div>
+                
+                <!-- FOTO 4 -->
+                <div class="foto-card">
+                    <div class="foto-placeholder">
+                        <img src= "muka4.jpeg" alt="Adhelia 4" style="width: 100%; height:100%; object-fit:cover;">
+                        <!-- GANTI: tempat foto 4 -->
+                    </div>
+                    <div class="foto-caption">senyum khasmu</div>
+                </div>
+            </div>
+            
+            <!-- Petunjuk kecil cara mengganti dengan foto asli -->
+            <div class="foto-note">
+                💜 tempat untuk foto asli Adhelia — ganti ikon 📸 dengan tag &lt;img&gt; 💜
+            </div>
+            <div class="tips-foto" style="text-align: center; max-width: 500px; margin: 10px auto 0;">
+                contoh: &lt;img src="foto-adhelia1.jpg" style="width:100%; height:100%; object-fit:cover;"&gt;
+            </div>
+        </div>
+
+        <!-- Bagian pemandangan gunung & pantai -->
+        <div class="pemandangan-duo">
+            <!-- GUNUNG -->
+            <div class="kartu-alam">
+                <div class="ikon-alam">⛰️✨</div>
+                <h2>senja di lereng</h2>
+                <div class="visual-gunung" title="gunung ungu favorit"></div>
+                <div class="caption-alam">「 kau teduh seperti kabut di puncak 」</div>
+            </div>
+            <!-- PANTAI -->
+            <div class="kartu-alam">
+                <div class="ikon-alam">🌴🌊</div>
+                <h2>di ujung pasir</h2>
+                <div class="visual-pantai" title="pantai senja keemasan"></div>
+                <div class="caption-alam">「 hatiku berlabuh di matamu 」</div>
+            </div>
+        </div>
+
+        <!-- QUOTES : semua untuk Adhelia dengan tema alam dan cinta -->
+        <div class="kumpulan-quote">
+            <h3>✦  untuk Adhelia  ✦</h3>
+            <div class="quote-flex">
+                <div class="quote-item">
+                    <div class="quote-teks">di ketinggian gunung atau di tepi pantai, aku selalu memilih di sampingmu.</div>
+                    <div class="quote-penanda">kekasihmu</div>
+                </div>
+                <div class="quote-item">
+                    <div class="quote-teks">setiap puncak mengingatkan pada tawamu, setiap ombak membisikkan namamu — Adhelia.</div>
+                    <div class="quote-penanda">dari dalam hati</div>
+                </div>
+                <div class="quote-item">
+                    <div class="quote-teks">kau adalah gunung tempatku pulang, dan lautan yang menenangkan jiwaku.</div>
+                    <div class="quote-penanda">selalu, aku</div>
+                </div>
+            </div>
+
+            <!-- tambahan dua kutipan kecil lebih intim -->
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 35px;">
+                <span style="background: #4a2c6d; padding: 10px 25px; border-radius: 40px; font-size: 1.2rem; border: 1px solid #c9a6ff;">💜 "pegunungan pun iri pada ketenanganmu"</span>
+                <span style="background: #4a2c6d; padding: 10px 25px; border-radius: 40px; font-size: 1.2rem; border: 1px solid #c9a6ff;">🌊 "ombak tak pernah lepas dari pantai, seperti aku darimu"</span>
+            </div>
+        </div>
+
+        <!-- baris paling personal -->
+        <div class="footer-personal">
+            <span class="aksen-bergoyang">💟</span>
+            <span> Adhelia, pelabuhan hatiku </span>
+            <span class="aksen-bergoyang">⛰️</span>
+        </div>
+
+        <div class="teks-kecil">
+            🌺  gunung menyimpan rindu, pantai mengantar doa, dan fotomu menghiasi setiap sudut hati  🌺
+        </div>
+
+        <!-- pesan tersembunyi (opsional) -->
+        <div style="text-align: center; margin-top: 20px; font-size: 1rem; color: #b28ad8; border-top: 1px dashed #a27ad0; padding-top: 15px;">
+            untuk Adhelia, dengan segenap warna ungu langit senja.
+        </div>
+    </div>
+</body>
+</html>
